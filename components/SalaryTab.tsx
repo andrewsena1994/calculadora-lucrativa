@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { DollarSign, Calendar, Package, TrendingUp, Save, HelpCircle, Info, Target, Gem, Wallet, ShoppingBag } from 'lucide-react';
 import { Button, Input, Card, ResultCard } from './ui/Components';
@@ -15,6 +14,7 @@ export const SalaryTab: React.FC<SalaryTabProps> = ({ user }) => {
   const [avgTicket, setAvgTicket] = useState<string>('');
   const [result, setResult] = useState<any>(null);
   const [message, setMessage] = useState<string>('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const marginOptions = [
     { label: 'Atacado 50%', value: 50 },
@@ -88,21 +88,27 @@ export const SalaryTab: React.FC<SalaryTabProps> = ({ user }) => {
     setMessage('');
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!result) return;
-    
-    storageService.saveSimulation(user.email, {
-      id: Date.now().toString(),
-      type: 'salary',
-      date: new Date().toISOString(),
-      inputs: {
-        targetSalary: parseFloat(targetSalary),
-        margin: parseFloat(margin),
-        avgTicket: parseFloat(avgTicket)
-      },
-      results: result
-    });
-    alert("Simulação salva com sucesso!");
+    setIsSaving(true);
+    try {
+      await storageService.saveSimulation(user, {
+        id: Date.now().toString(), // Will be overwritten by Firestore ID if online
+        type: 'salary',
+        date: new Date().toISOString(),
+        inputs: {
+          targetSalary: parseFloat(targetSalary),
+          margin: parseFloat(margin),
+          avgTicket: parseFloat(avgTicket)
+        },
+        results: result
+      });
+      alert("Simulação salva com sucesso!");
+    } catch (e) {
+      alert("Erro ao salvar simulação.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -364,9 +370,9 @@ export const SalaryTab: React.FC<SalaryTabProps> = ({ user }) => {
             </p>
           </div>
 
-          <Button variant="outline" onClick={handleSave}>
+          <Button variant="outline" onClick={handleSave} disabled={isSaving}>
             <Save size={20} />
-            Salvar esta simulação
+            {isSaving ? 'Salvando...' : 'Salvar esta simulação'}
           </Button>
         </div>
       )}

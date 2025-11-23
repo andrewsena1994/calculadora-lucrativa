@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Trash2, ChevronDown, ChevronUp, User as UserIcon } from 'lucide-react';
 import { storageService } from '../services/storage';
@@ -12,26 +11,29 @@ interface AccountTabProps {
 export const AccountTab: React.FC<AccountTabProps> = ({ user }) => {
   const [simulations, setSimulations] = useState<Simulation[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadData();
   }, [user.email]);
 
-  const loadData = () => {
-    const data = storageService.getSimulations(user.email);
+  const loadData = async () => {
+    setLoading(true);
+    const data = await storageService.getSimulations(user);
     setSimulations(data);
+    setLoading(false);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm("Tem certeza que deseja excluir esta simulação?")) {
-      storageService.deleteSimulation(user.email, id);
+      await storageService.deleteSimulation(user, id);
       loadData();
     }
   };
 
-  const handleClearAll = () => {
+  const handleClearAll = async () => {
     if (window.confirm("Isso apagará TODO o seu histórico. Tem certeza?")) {
-      storageService.clearAllSimulations(user.email);
+      await storageService.clearAllSimulations(user);
       loadData();
     }
   };
@@ -41,7 +43,12 @@ export const AccountTab: React.FC<AccountTabProps> = ({ user }) => {
   };
 
   const formatDate = (isoString: string) => {
-    return new Date(isoString).toLocaleDateString('pt-BR', {
+    // Check if it is a Firestore Timestamp (seconds) or ISO String
+    if (!isoString) return '';
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) return 'Data inválida';
+
+    return date.toLocaleDateString('pt-BR', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -110,7 +117,9 @@ export const AccountTab: React.FC<AccountTabProps> = ({ user }) => {
         )}
       </div>
 
-      {simulations.length === 0 ? (
+      {loading ? (
+        <div className="text-center py-10 text-gray-400">Carregando histórico...</div>
+      ) : simulations.length === 0 ? (
         <div className="text-center py-10 bg-gray-50 rounded-xl border border-dashed border-gray-300">
           <p className="text-gray-500">Você ainda não salvou nenhuma simulação.</p>
           <p className="text-gray-400 text-sm">Vá para as outras abas e comece a calcular!</p>

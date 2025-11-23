@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Calculator, CreditCard, Save, Tag, Coins, Info, ShieldCheck, AlertCircle } from 'lucide-react';
 import { Button, Input, Card } from './ui/Components';
@@ -14,6 +13,7 @@ export const PricingTab: React.FC<PricingTabProps> = ({ user }) => {
   const [cost, setCost] = useState<string>('');
   const [margin, setMargin] = useState<string>('');
   const [cardRate, setCardRate] = useState<string>('');
+  const [isSaving, setIsSaving] = useState(false);
   
   // Result
   const [result, setResult] = useState<PricingSimulation['results'] | null>(null);
@@ -83,20 +83,27 @@ export const PricingTab: React.FC<PricingTabProps> = ({ user }) => {
     });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!result) return;
-    storageService.saveSimulation(user.email, {
-      id: Date.now().toString(),
-      type: 'pricing',
-      date: new Date().toISOString(),
-      inputs: {
-        cost: parseFloat(cost),
-        margin: parseFloat(margin),
-        cardRate: parseFloat(cardRate)
-      },
-      results: result
-    });
-    alert("Simulação de precificação salva com sucesso!");
+    setIsSaving(true);
+    try {
+      await storageService.saveSimulation(user, {
+        id: Date.now().toString(),
+        type: 'pricing',
+        date: new Date().toISOString(),
+        inputs: {
+          cost: parseFloat(cost),
+          margin: parseFloat(margin),
+          cardRate: parseFloat(cardRate)
+        },
+        results: result
+      });
+      alert("Simulação de precificação salva com sucesso!");
+    } catch (e) {
+      alert("Erro ao salvar simulação.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -290,9 +297,9 @@ export const PricingTab: React.FC<PricingTabProps> = ({ user }) => {
             <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-pink-500 rounded-full opacity-20 blur-xl"></div>
           </div>
 
-          <Button variant="outline" onClick={handleSave}>
+          <Button variant="outline" onClick={handleSave} disabled={isSaving}>
             <Save size={20} />
-            Salvar esta precificação
+            {isSaving ? 'Salvando...' : 'Salvar esta precificação'}
           </Button>
         </div>
       )}

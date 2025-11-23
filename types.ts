@@ -2,6 +2,7 @@
 export interface User {
   email: string;
   name?: string;
+  uid?: string; // Firebase User ID
 }
 
 export interface SalarySimulation {
@@ -18,11 +19,10 @@ export interface SalarySimulation {
     piecesPerMonth: number;
     piecesPerWeek: number;
     piecesPerDay: number;
-    dailyRevenueGoal: number; // Keeps legacy name for Daily Revenue (Sales)
-    // New detailed fields
+    dailyRevenueGoal: number; 
     totalMonthlyRevenue: number;
-    projectedMonthlyProfit: number; // Total Profit
-    totalInvestment: number; // New field: Cost of Goods Sold total
+    projectedMonthlyProfit: number;
+    totalInvestment: number;
     dailyProfitGoal: number;
   };
 }
@@ -30,11 +30,11 @@ export interface SalarySimulation {
 export interface PricingSimulation {
   id: string;
   type: 'pricing';
-  subtype?: string; // Optional now, kept for legacy data compatibility
+  subtype?: string; 
   date: string;
   inputs: {
     cost: number;
-    margin: number; // Unified margin input
+    margin: number; 
     cardRate: number;
   };
   results: {
@@ -44,7 +44,6 @@ export interface PricingSimulation {
     profitCard: number;
     suggestedPromoPrice?: number; 
     difference?: number;
-    // New fields for Embedded Rate Strategy
     priceCardEmbedded?: number;
     receivedEmbedded?: number;
     profitCardEmbedded?: number;
