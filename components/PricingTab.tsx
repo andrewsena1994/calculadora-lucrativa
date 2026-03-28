@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Calculator, CreditCard, Save, Tag, Coins, Info, ShieldCheck, AlertCircle } from 'lucide-react';
 import { Button, Input, Card } from './ui/Components';
@@ -160,7 +161,7 @@ export const PricingTab: React.FC<PricingTabProps> = ({ user }) => {
             <div className="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-2 border border-gray-100">
               <p><strong>Atacado 50%:</strong> Margem usada para vendas de peças "bate caixa", clientes que compram toda semana, ideal para girar rápido.</p>
               <p><strong>Varejo Barato 80%:</strong> Perfeito para peças populares, ofertas e produtos de forte giro.</p>
-              <p><strong>Varejo Medio 100%:</strong> Margem equilibrada do varejo tradicional. Gera lucro saudável.</p>
+              <p><strong>Varejo Médio 100%:</strong> Margem equilibrada do varejo tradicional. Gera lucro saudável.</p>
               <p><strong>Varejo Premium 120%:</strong> Indicado para peças premium, novidades ou itens de valor agregado.</p>
             </div>
           </div>
@@ -177,7 +178,7 @@ export const PricingTab: React.FC<PricingTabProps> = ({ user }) => {
               placeholder="Ex: 10"
             />
             <p className="text-xs text-gray-500">
-              A taxa varia conforme bandeira, máquina e número de parcelas. Quanto mais parcelas, maior a taxa. Aqui você usa uma média estimada para calcular seus preços com segurança.
+              A taxa varia conforme bandeira, máquina e número de parcelas. Se você não souber a taxa, pode colocar 0.
             </p>
           </div>
 

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { DollarSign, Calendar, Package, TrendingUp, Save, HelpCircle, Info, Target, Gem, Wallet, ShoppingBag } from 'lucide-react';
 import { Button, Input, Card, ResultCard } from './ui/Components';
@@ -24,9 +25,9 @@ export const SalaryTab: React.FC<SalaryTabProps> = ({ user }) => {
   ];
 
   const ticketOptions = [
-    { label: 'Peças Baratas (R$ 15)', value: 15 },
-    { label: 'Peças Médias (R$ 30)', value: 30 },
-    { label: 'Peças Premium (R$ 50)', value: 50 },
+    { label: 'Peças Baratas (R$ 30)', value: 30 },
+    { label: 'Peças Médias (R$ 60)', value: 60 },
+    { label: 'Peças Premium (R$ 100)', value: 100 },
   ];
 
   const handleCalculate = (e: React.FormEvent) => {
@@ -187,9 +188,12 @@ export const SalaryTab: React.FC<SalaryTabProps> = ({ user }) => {
 
             {/* Margin Legends */}
             <div className="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-2 border border-gray-100">
+              <p className="font-semibold text-pink-700 mb-1 border-b border-pink-100 pb-1">
+                A margem de lucro é a porcentagem que você adiciona sobre o custo das peças que irá comprar para revender.
+              </p>
               <p><strong>Atacado 50%:</strong> Margem usada para vendas em quantidade, ideal para revendedoras que aproveitam sempre as ofertas da loja e também compram peças "bate caixa" e querem girar rápido.</p>
               <p><strong>Varejo Barato 80%:</strong> Margem usada em peças de entrada e preços atraentes, onde o giro é mais rápido.</p>
-              <p><strong>Varejo Medio 100%:</strong> Margem tradicional e equilibrada do varejo, garantindo lucro saudável sem assustar o cliente.</p>
+              <p><strong>Varejo Médio 100%:</strong> Margem tradicional e equilibrada do varejo, garantindo lucro saudável sem assustar o cliente.</p>
               <p><strong>Varejo Premium 120%:</strong> Margem recomendada para peças premium, novidades ou itens de maior valor percebido.</p>
             </div>
           </div>
@@ -226,9 +230,9 @@ export const SalaryTab: React.FC<SalaryTabProps> = ({ user }) => {
 
             {/* Ticket Legends */}
             <div className="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-2 border border-gray-100">
-              <p><strong>Peças Baratas (R$ 15,00):</strong> Itens de alto giro, geralmente usados em promoções, ofertas e varejo popular.</p>
-              <p><strong>Peças Médias (R$ 30,00):</strong> Ticket mais comum da maioria das revendas. É o equilíbrio entre giro e margem.</p>
-              <p><strong>Peças Premium (R$ 50,00):</strong> Peças de maior qualidade ou tendência. Ideal para clientes que compram roupas mais elaboradas.</p>
+              <p><strong>Peças Baratas (R$ 30,00):</strong> Itens de alto giro, geralmente usados em promoções, ofertas e varejo popular.</p>
+              <p><strong>Peças Médias (R$ 60,00):</strong> Ticket mais comum da maioria das revendas. É o equilíbrio entre giro e margem.</p>
+              <p><strong>Peças Premium (R$ 100,00):</strong> Peças de maior qualidade ou tendência. Ideal para clientes que compram roupas mais elaboradas.</p>
             </div>
 
              {/* How to Find Ticket Info */}
@@ -239,15 +243,15 @@ export const SalaryTab: React.FC<SalaryTabProps> = ({ user }) => {
               <div className="text-xs text-gray-600 space-y-2">
                 <div>
                   <strong className="block text-gray-700">Se você já vende produtos:</strong>
-                  <p>Para descobrir seu ticket médio, some o valor total das últimas vendas e divida pela quantidade de peças vendidas. Exemplo: Se você vendeu R$ 1.500 em 50 peças, seu ticket médio é R$ 30,00.</p>
+                  <p>Para descobrir seu ticket médio, some o valor total das últimas vendas e divida pela quantidade de peças vendidas. Exemplo: Se você vendeu R$ 3.000 em 50 peças, seu ticket médio é R$ 60,00.</p>
                 </div>
                 <div className="mt-2">
                   <strong className="block text-gray-700">Se você ainda não vende:</strong>
                   <p>Escolha seu ticket médio com base no público que você quer atingir:</p>
                   <ul className="list-disc list-inside ml-1 mt-1 space-y-0.5">
-                    <li>Público popular → peças baratas (R$ 15,00)</li>
-                    <li>Público intermediário → peças médias (R$ 30,00)</li>
-                    <li>Público premium → peças de maior qualidade (R$ 50,00 ou mais).</li>
+                    <li>Público popular → peças baratas (R$ 30,00)</li>
+                    <li>Público intermediário → peças médias (R$ 60,00)</li>
+                    <li>Público premium → peças de maior qualidade (R$ 100,00 ou mais).</li>
                   </ul>
                   <p className="mt-1">Use o ticket que melhor representa o tipo de cliente que você deseja alcançar.</p>
                 </div>
